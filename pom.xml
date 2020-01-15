@@ -12,7 +12,7 @@
 	<groupId>org.sample.capstone</groupId>
 	<artifactId>account-details</artifactId>
 	<version>1.0.0.BUILD-SNAPSHOT</version>
-	<name>AccountDetails</name>
+	<name>account-details</name>
 	<description>Demo project for Spring Boot</description>
 
 	<properties>

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @SpringBootApplication
-public class AssetManagementApplication {
+public class UsersApplication {
 
    @Bean
     public HealthIndicator dbHealthIndicator() {
@@ -24,7 +24,7 @@ public class AssetManagementApplication {
     }
    
     public static void main(String[] args) {
-        SpringApplication.run(AssetManagementApplication.class, args);
+        SpringApplication.run(UsersApplication.class, args);
     }
     
    @RestController
