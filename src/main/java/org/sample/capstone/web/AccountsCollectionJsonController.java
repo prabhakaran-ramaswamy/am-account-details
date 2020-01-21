@@ -58,10 +58,9 @@ public class AccountsCollectionJsonController {
         return MvcUriComponentsBuilder.fromMethodCall(MvcUriComponentsBuilder.on(AccountsCollectionJsonController.class).list( null)).build().encode();
     }
 
-
     @PostMapping(name = "create")
     public ResponseEntity<?> create(@Valid @RequestBody Account account, BindingResult result) {
-        if (account.getId() != null || account.getVersion() != null) {
+        if (account.getId() != null ) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
         if (result.hasErrors()) {

@@ -11,8 +11,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
-@Table(name = "account_details")
-
+@Table(name = "account_detail")
 public class Account {
 
     @Id
@@ -20,10 +19,6 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "accountGen")
     @Column(name = "ACCOUNT_ID")
     private Long id;
-
-    @Version
-    @Column(name = "VERSION")
-    private Long version;
 
     @NotNull
     @Column(name = "FIRST_NAME")
@@ -51,14 +46,6 @@ public class Account {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public Long getVersion() {
-		return version;
-	}
-
-	public void setVersion(Long version) {
-		this.version = version;
 	}
 
 	public String getFirstName() {

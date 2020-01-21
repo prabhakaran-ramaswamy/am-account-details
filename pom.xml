@@ -10,7 +10,7 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>org.sample.capstone</groupId>
-	<artifactId>account-details</artifactId>
+	<artifactId>am-account-details</artifactId>
 	<version>1.0.0.BUILD-SNAPSHOT</version>
 	<name>account-details</name>
 	<description>Demo project for Spring Boot</description>
