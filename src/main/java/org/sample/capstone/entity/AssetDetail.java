@@ -12,38 +12,31 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 @Entity
-@Table(name = "account_detail")
-public class Account {
+@Table(name = "ASSET_DETAIL")
+public class AssetDetail {
 
 	@Id
-	@SequenceGenerator(name = "accountGen", sequenceName = "ACCOUNT_SEQ")
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "accountGen")
-	@Column(name = "ACCOUNT_ID")
+	@SequenceGenerator(name = "assetDetailsGen", sequenceName = "ASSET_DETAIL_SEQ")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "assetDetailsGen")
+	@Column(name = "ASSET_DETAIL_ID")
 	private Long id;
 
-	@NotNull
-	@Column(name = "FIRST_NAME")
-	@Size(min = 3, max = 30)
-	private String firstName;
+	@Column(name = "DESCRIPTION")
+	private String description;
 
-	@NotNull
-	@Column(name = "LAST_NAME")
-	@Size(min = 3, max = 30)
-	private String lastName;
+	@Column(name = "ASSET_NUMBER")
+	private String assetNumber;
 
-	@NotNull
-	@Column(name = "EMAIL")
-	@Size(min = 3, max = 30)
-	private String email;
+	@Column(name = "SERIAL")
+	private String serial;
 
-	@NotNull
-	@Column(name = "MOBILE")
-	@Size(min = 2, max = 5)
-	private String mobile;
+	@Column(name = "TAGGED_TO")
+	private String taggedTo;
+
+	@Column(name = "STATUS")
+	private String status;
 
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "ASSET_ID")
@@ -57,36 +50,44 @@ public class Account {
 		this.id = id;
 	}
 
-	public String getFirstName() {
-		return firstName;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
-	public String getLastName() {
-		return lastName;
+	public String getAssetNumber() {
+		return assetNumber;
 	}
 
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
+	public void setAssetNumber(String assetNumber) {
+		this.assetNumber = assetNumber;
 	}
 
-	public String getEmail() {
-		return email;
+	public String getSerial() {
+		return serial;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public void setSerial(String serial) {
+		this.serial = serial;
 	}
 
-	public String getMobile() {
-		return mobile;
+	public String getTaggedTo() {
+		return taggedTo;
 	}
 
-	public void setMobile(String mobile) {
-		this.mobile = mobile;
+	public void setTaggedTo(String taggedTo) {
+		this.taggedTo = taggedTo;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 	public Set<ManagedAsset> getManagedAssets() {
@@ -113,7 +114,7 @@ public class Account {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Account other = (Account) obj;
+		AssetDetail other = (AssetDetail) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
