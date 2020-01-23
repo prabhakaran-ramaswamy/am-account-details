@@ -6,32 +6,42 @@ import org.springframework.boot.actuate.health.HealthIndicator;
 import org.springframework.boot.actuate.health.Status;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 
 @SpringBootApplication
 public class AccountsApplication {
 
-   @Bean
-    public HealthIndicator dbHealthIndicator() {
-        return new HealthIndicator() {
+	@Bean
+	public HealthIndicator dbHealthIndicator() {
+		return new HealthIndicator() {
 
-            @Override
-            public Health health() {
-                return Health.status(Status.UP).withDetail("hello", "hi").build();
-            }
-        };
-    }
-   
-    public static void main(String[] args) {
-        SpringApplication.run(AccountsApplication.class, args);
-    }
-    
-   @RestController
-    public class HelloController {
-        @GetMapping("/hello")
-        public String hello() {
-            return "hello";
-        }
-    }
+			@Override
+			public Health health() {
+				return Health.status(Status.UP).withDetail("hello", "hi").build();
+			}
+		};
+	}
+
+	public static void main(String[] args) {
+		SpringApplication.run(AccountsApplication.class, args);
+	}
+
+	@RestController
+	public class HelloController {
+		@GetMapping("/hello")
+		public String hello() {
+			return "hello";
+		}
+	}
+
+	@Bean 
+	public RequestMappingHandlerAdapter objectMapper() {
+	   RequestMappingHandlerAdapter requestMappingHandlerAdapter =new RequestMappingHandlerAdapter();
+	   MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter = new MappingJackson2HttpMessageConverter();
+	   requestMappingHandlerAdapter.getMessageConverters().add(mappingJackson2HttpMessageConverter);
+	   return requestMappingHandlerAdapter;
+	}
 }

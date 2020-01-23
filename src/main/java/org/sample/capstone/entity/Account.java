@@ -1,10 +1,13 @@
 package org.sample.capstone.entity;
 
+import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -15,9 +18,14 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 @Entity
 @Table(name = "account_detail")
-public class Account {
+public class Account implements Serializable{
+
+	private static final long serialVersionUID = -6483942209934351444L;
 
 	@Id
 	@SequenceGenerator(name = "accountGen", sequenceName = "ACCOUNT_SEQ")
@@ -42,13 +50,13 @@ public class Account {
 
 	@NotNull
 	@Column(name = "MOBILE")
-	@Size(min = 2, max = 5)
+	@Size( max = 15)
 	private String mobile;
 
 	@OneToMany(mappedBy = "account",
 	        cascade = CascadeType.ALL,
-	        orphanRemoval = true)
-	private Set<ManagedAsset> managedAssets;
+	        orphanRemoval = true, fetch = FetchType.EAGER)
+	private Set<ManagedAsset> managedAssets = new HashSet<ManagedAsset>();
 
 	public Long getId() {
 		return id;

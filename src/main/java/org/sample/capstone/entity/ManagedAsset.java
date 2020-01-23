@@ -1,4 +1,6 @@
 package org.sample.capstone.entity;
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -10,24 +12,30 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+
 
 
 @Entity
 @Table(name = "MANAGED_ASSET")
-public class ManagedAsset {
+public class ManagedAsset implements Serializable {
 
-    @Id
+	private static final long serialVersionUID = -655325088406930921L;
+
+	@Id
     @SequenceGenerator(name = "managedAssetGen", sequenceName = "MANAGED_ASSET_SEQ")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "managedAssetGen")
     @Column(name = "MANAGED_ASSET_ID")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="ASSET_ID")
+    //@ManyToOne(fetch = FetchType.LAZY)
+    //@JoinColumn(name="ASSET_ID")
+	@Column(name="ASSET_ID")
     private AssetDetail asset;
     
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="ACCOUNT_ID")
+    //@ManyToOne(fetch = FetchType.LAZY)
+   // @JoinColumn(name="ACCOUNT_ID")
+	@Column(name="ACCOUNT_ID")
     private Account account;
 
 	public Long getId() {
