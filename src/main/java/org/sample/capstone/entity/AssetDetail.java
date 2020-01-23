@@ -29,7 +29,7 @@ public class AssetDetail {
 	@Column(name = "ASSET_NUMBER")
 	private String assetNumber;
 
-	@Column(name = "SERIAL")
+	@Column(name = "SERIAL_NUMBER")
 	private String serial;
 
 	@Column(name = "TAGGED_TO")
@@ -38,8 +38,9 @@ public class AssetDetail {
 	@Column(name = "STATUS")
 	private String status;
 
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "ASSET_ID")
+	@OneToMany(mappedBy = "asset",
+	        cascade = CascadeType.ALL,
+	        orphanRemoval = true)
 	private Set<ManagedAsset> managedAssets;
 
 	public Long getId() {

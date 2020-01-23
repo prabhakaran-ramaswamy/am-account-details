@@ -45,8 +45,9 @@ public class Account {
 	@Size(min = 2, max = 5)
 	private String mobile;
 
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "ASSET_ID")
+	@OneToMany(mappedBy = "account",
+	        cascade = CascadeType.ALL,
+	        orphanRemoval = true)
 	private Set<ManagedAsset> managedAssets;
 
 	public Long getId() {
