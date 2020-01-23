@@ -44,10 +44,10 @@ public class AssetDetail implements Serializable {
 	@Column(name = "STATUS")
 	private String status;
 
-	/*@OneToMany(mappedBy = "asset",
+	@OneToMany(mappedBy = "asset",
 	        cascade = CascadeType.ALL,
 	        orphanRemoval = true, fetch = FetchType.EAGER)
-	private Set<ManagedAsset> managedAssets;*/
+	private Set<ManagedAsset> managedAssets;
 
 	public Long getId() {
 		return id;
@@ -97,13 +97,13 @@ public class AssetDetail implements Serializable {
 		this.status = status;
 	}
 
-	/*public Set<ManagedAsset> getManagedAssets() {
+	public Set<ManagedAsset> getManagedAssets() {
 		return managedAssets;
 	}
 
 	public void setManagedAssets(Set<ManagedAsset> managedAssets) {
 		this.managedAssets = managedAssets;
-	}*/
+	}
 
 	@Override
 	public int hashCode() {
