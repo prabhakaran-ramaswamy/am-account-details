@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 
+import brave.sampler.Sampler;
+
 @SpringBootApplication
 public class AccountsApplication {
 
@@ -43,5 +45,10 @@ public class AccountsApplication {
 	   MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter = new MappingJackson2HttpMessageConverter();
 	   requestMappingHandlerAdapter.getMessageConverters().add(mappingJackson2HttpMessageConverter);
 	   return requestMappingHandlerAdapter;
+	}
+	
+	@Bean
+	public Sampler defaultSampler() {
+		return Sampler.ALWAYS_SAMPLE;
 	}
 }

@@ -28,12 +28,12 @@ public class ManagedAsset implements Serializable {
     @Column(name = "MANAGED_ASSET_ID")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="ASSET_ID")
 	//@Column(name="ASSET_ID")
     private AssetDetail asset;
     
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="ACCOUNT_ID")
 	//@Column(name="ACCOUNT_ID")
     private Account account;
