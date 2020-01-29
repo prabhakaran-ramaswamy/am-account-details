@@ -3,6 +3,8 @@ import javax.validation.Valid;
 
 import org.sample.capstone.entity.Account;
 import org.sample.capstone.exception.NotFoundException;
+import org.sample.capstone.helper.AccountUtil;
+import org.sample.capstone.model.AccountModel;
 import org.sample.capstone.service.api.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,59 +29,46 @@ import org.springframework.web.util.UriComponents;
 public class AccountsItemJsonController {
 
 
+	@Autowired
     private AccountService accountService;
 
 
-    @Autowired
-    public AccountsItemJsonController(AccountService accountService) {
-        this.accountService = accountService;
-    }
-
-
-    public AccountService getAccountService() {
-        return accountService;
-    }
-
-
-    public void setAccountService(AccountService accountService) {
-        this.accountService = accountService;
-    }
-
-
     @ModelAttribute
-    public Account getAccount(@PathVariable("account") Long id) {
+    public AccountModel getAccount(@PathVariable("account") Long id) {
         Account account = accountService.findOne(id);
         if (account == null) {
             throw new NotFoundException(String.format("Account with identifier '%s' not found", id));
         }
-        return account;
+        AccountModel accountModel = AccountUtil.copyAccountToAccountModel(account);
+        return accountModel;
     }
 
 
     @GetMapping(name = "show")
-    public ResponseEntity<?> show(@ModelAttribute Account account) {
+    public ResponseEntity<?> show(@ModelAttribute AccountModel account) {
         return ResponseEntity.ok(account);
     }
 
 
-    public static UriComponents showURI(Account account) {
-        return MvcUriComponentsBuilder.fromMethodCall(MvcUriComponentsBuilder.on(AccountsItemJsonController.class).show(account)).buildAndExpand(account.getId()).encode();
+    public static UriComponents showURI(AccountModel accountModel) {
+        return MvcUriComponentsBuilder.fromMethodCall(MvcUriComponentsBuilder.on(AccountsItemJsonController.class).show(accountModel)).buildAndExpand(accountModel.getId()).encode();
     }
 
 
     @PutMapping(name = "update")
-    public ResponseEntity<?> update(@ModelAttribute Account storedAccount, @Valid @RequestBody Account account, BindingResult result) {
+    public ResponseEntity<?> update(@ModelAttribute AccountModel storedAccount, @Valid @RequestBody AccountModel accountModel, BindingResult result) {
         if (result.hasErrors()) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(result);
         }
+        Account account = AccountUtil.copyAccountModelToAccount(accountModel);
         account.setId(storedAccount.getId());
-        getAccountService().save(account);
+        accountService.save(account);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping(name = "delete")
-    public ResponseEntity<?> delete(@ModelAttribute Account account) {
-        getAccountService().delete(account);
+    public ResponseEntity<?> delete(@ModelAttribute AccountModel account) {
+        accountService.delete(AccountUtil.copyAccountModelToAccount(account));
         return ResponseEntity.ok().build();
     }
 }
