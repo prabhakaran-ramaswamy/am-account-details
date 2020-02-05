@@ -25,10 +25,6 @@ public class AssetDetailModel implements Serializable {
 	@Size(min = 3, max = 30)
 	private String serial;
 
-	@NotNull
-	@Size(min = 3, max = 30)
-	private String taggedTo;
-
 	private String status;
 
 	private Set<ManagedAssetModel> managedAssets = new HashSet<ManagedAssetModel>();
@@ -63,14 +59,6 @@ public class AssetDetailModel implements Serializable {
 
 	public void setSerial(String serial) {
 		this.serial = serial;
-	}
-
-	public String getTaggedTo() {
-		return taggedTo;
-	}
-
-	public void setTaggedTo(String taggedTo) {
-		this.taggedTo = taggedTo;
 	}
 
 	public String getStatus() {

@@ -38,9 +38,6 @@ public class AssetDetail implements Serializable {
 	@Column(name = "SERIAL_NUMBER")
 	private String serial;
 
-	@Column(name = "TAGGED_TO")
-	private String taggedTo;
-
 	@Column(name = "STATUS")
 	private String status;
 
@@ -79,14 +76,6 @@ public class AssetDetail implements Serializable {
 
 	public void setSerial(String serial) {
 		this.serial = serial;
-	}
-
-	public String getTaggedTo() {
-		return taggedTo;
-	}
-
-	public void setTaggedTo(String taggedTo) {
-		this.taggedTo = taggedTo;
 	}
 
 	public String getStatus() {
