@@ -40,14 +40,6 @@ public class AccountsApplication {
 	}
 
 	@Bean
-	public RequestMappingHandlerAdapter objectMapper() {
-		RequestMappingHandlerAdapter requestMappingHandlerAdapter = new RequestMappingHandlerAdapter();
-		MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter = new MappingJackson2HttpMessageConverter();
-		requestMappingHandlerAdapter.getMessageConverters().add(mappingJackson2HttpMessageConverter);
-		return requestMappingHandlerAdapter;
-	}
-
-	@Bean
 	public Sampler defaultSampler() {
 		return Sampler.ALWAYS_SAMPLE;
 	}

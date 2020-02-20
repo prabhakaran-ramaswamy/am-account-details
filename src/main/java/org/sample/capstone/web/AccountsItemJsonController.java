@@ -28,7 +28,9 @@ import org.springframework.web.util.UriComponents;
 @RequestMapping(value = "/accounts/{account}", name = "AccountsItemJsonController", produces = MediaType.APPLICATION_JSON_VALUE)
 public class AccountsItemJsonController {
 
-
+	@Autowired 
+	AccountUtil accountUtil;
+	
 	@Autowired
     private AccountService accountService;
 
@@ -39,7 +41,7 @@ public class AccountsItemJsonController {
         if (account == null) {
             throw new NotFoundException(String.format("Account with identifier '%s' not found", id));
         }
-        AccountModel accountModel = AccountUtil.copyAccountToAccountModel(account);
+        AccountModel accountModel = accountUtil.copyAccountToAccountModel(account);
         return accountModel;
     }
 
@@ -60,7 +62,7 @@ public class AccountsItemJsonController {
         if (result.hasErrors()) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(result);
         }
-        Account account = AccountUtil.copyAccountModelToAccount(accountModel);
+        Account account = accountUtil.copyAccountModelToAccount(accountModel);
         account.setId(storedAccount.getId());
         accountService.save(account);
         return ResponseEntity.ok().build();
@@ -68,7 +70,7 @@ public class AccountsItemJsonController {
 
     @DeleteMapping(name = "delete")
     public ResponseEntity<?> delete(@ModelAttribute AccountModel account) {
-        accountService.delete(AccountUtil.copyAccountModelToAccount(account));
+        accountService.delete(accountUtil.copyAccountModelToAccount(account));
         return ResponseEntity.ok().build();
     }
 }

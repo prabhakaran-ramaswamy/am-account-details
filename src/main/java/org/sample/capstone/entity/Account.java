@@ -11,15 +11,11 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonInclude;
 
 @Entity
 @Table(name = "account_detail")
@@ -55,7 +51,7 @@ public class Account implements Serializable{
 
 	@OneToMany(mappedBy = "account",
 	        cascade = CascadeType.ALL,
-	        orphanRemoval = true, fetch = FetchType.EAGER)
+	        orphanRemoval = true, fetch = FetchType.LAZY)
 	private Set<ManagedAsset> managedAssets = new HashSet<ManagedAsset>();
 
 	public Long getId() {

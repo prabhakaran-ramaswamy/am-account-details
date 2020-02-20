@@ -1,6 +1,7 @@
 package org.sample.capstone.entity;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -10,12 +11,9 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
 
 @Entity
 @Table(name = "ASSET_DETAIL")
@@ -44,7 +42,7 @@ public class AssetDetail implements Serializable {
 	@OneToMany(mappedBy = "asset",
 	        cascade = CascadeType.ALL,
 	        orphanRemoval = true, fetch = FetchType.EAGER)
-	private Set<ManagedAsset> managedAssets;
+	private Set<ManagedAsset> managedAssets = new HashSet<ManagedAsset>();
 
 	public Long getId() {
 		return id;

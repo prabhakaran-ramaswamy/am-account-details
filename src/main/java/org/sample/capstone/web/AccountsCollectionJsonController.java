@@ -34,6 +34,9 @@ import org.springframework.web.util.UriComponents;
 @RequestMapping(value = "/accounts", name = "AccountsCollectionJsonController", produces = MediaType.APPLICATION_JSON_VALUE)
 public class AccountsCollectionJsonController {
 
+	@Autowired 
+	AccountUtil accountUtil;
+	
 	@Autowired
     private AccountService accountService;
 
@@ -41,7 +44,7 @@ public class AccountsCollectionJsonController {
     @GetMapping(name = "list")
     public ResponseEntity<Page<AccountModel>> list(@PageableDefault Pageable pageable) {
         Page<Account> accounts = accountService.findAll( pageable);
-        List<AccountModel> accountModels = AccountUtil.copyAccountsToAccountModels(accounts.getContent());
+        List<AccountModel> accountModels = accountUtil.copyAccountsToAccountModels(accounts.getContent());
         Page<AccountModel> page = new PageImpl<>(accountModels, accounts.getPageable(), accountModels.size());
         return ResponseEntity.ok(page);
     }
@@ -59,9 +62,9 @@ public class AccountsCollectionJsonController {
         if (result.hasErrors()) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(result);
         }
-        Account account = AccountUtil.copyAccountModelToAccount(accountModel);
+        Account account = accountUtil.copyAccountModelToAccount(accountModel);
         Account newAccount = accountService.save(account);
-        UriComponents showURI = AccountsItemJsonController.showURI(AccountUtil.copyAccountToAccountModel(newAccount));
+        UriComponents showURI = AccountsItemJsonController.showURI(accountUtil.copyAccountToAccountModel(newAccount));
         return ResponseEntity.created(showURI.toUri()).build();
     }
 
@@ -71,7 +74,7 @@ public class AccountsCollectionJsonController {
         if (result.hasErrors()) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(result);
         }
-        accountService.save(AccountUtil.copyAccountModelsToAccounts(new ArrayList<AccountModel>(accountModels)));
+        accountService.save(accountUtil.copyAccountModelsToAccounts(new ArrayList<AccountModel>(accountModels)));
         return ResponseEntity.created(listURI().toUri()).build();
     }
 
@@ -81,7 +84,7 @@ public class AccountsCollectionJsonController {
         if (result.hasErrors()) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(result);
         }
-        accountService.save(AccountUtil.copyAccountModelsToAccounts(new ArrayList<AccountModel>(accountModels)));
+        accountService.save(accountUtil.copyAccountModelsToAccounts(new ArrayList<AccountModel>(accountModels)));
         return ResponseEntity.ok().build();
     }
 

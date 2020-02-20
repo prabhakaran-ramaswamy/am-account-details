@@ -12,8 +12,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-
 
 
 @Entity
@@ -30,12 +28,10 @@ public class ManagedAsset implements Serializable {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="ASSET_ID")
-	//@Column(name="ASSET_ID")
     private AssetDetail asset;
     
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="ACCOUNT_ID")
-	//@Column(name="ACCOUNT_ID")
     private Account account;
 
 	public Long getId() {
