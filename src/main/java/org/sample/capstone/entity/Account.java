@@ -17,6 +17,9 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table(name = "account_detail")
 public class Account implements Serializable{
@@ -49,9 +52,10 @@ public class Account implements Serializable{
 	@Size( max = 15)
 	private String mobile;
 
+	@JsonManagedReference(value="account")
 	@OneToMany(mappedBy = "account",
 	        cascade = CascadeType.ALL,
-	        orphanRemoval = true, fetch = FetchType.LAZY)
+	        fetch = FetchType.EAGER)
 	private Set<ManagedAsset> managedAssets = new HashSet<ManagedAsset>();
 
 	public Long getId() {

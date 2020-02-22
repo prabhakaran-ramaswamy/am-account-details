@@ -1,17 +1,12 @@
 package org.sample.capstone.web;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 import javax.validation.Valid;
 
 import org.sample.capstone.entity.Account;
-import org.sample.capstone.helper.AccountUtil;
-import org.sample.capstone.model.AccountModel;
 import org.sample.capstone.service.api.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
@@ -33,20 +28,15 @@ import org.springframework.web.util.UriComponents;
 @RestController
 @RequestMapping(value = "/accounts", name = "AccountsCollectionJsonController", produces = MediaType.APPLICATION_JSON_VALUE)
 public class AccountsCollectionJsonController {
-
-	@Autowired 
-	AccountUtil accountUtil;
 	
 	@Autowired
     private AccountService accountService;
 
 
     @GetMapping(name = "list")
-    public ResponseEntity<Page<AccountModel>> list(@PageableDefault Pageable pageable) {
+    public ResponseEntity<Page<Account>> list(@PageableDefault Pageable pageable) {
         Page<Account> accounts = accountService.findAll( pageable);
-        List<AccountModel> accountModels = accountUtil.copyAccountsToAccountModels(accounts.getContent());
-        Page<AccountModel> page = new PageImpl<>(accountModels, accounts.getPageable(), accountModels.size());
-        return ResponseEntity.ok(page);
+        return ResponseEntity.ok(accounts);
     }
 
 
@@ -55,36 +45,35 @@ public class AccountsCollectionJsonController {
     }
 
     @PostMapping(name = "create")
-    public ResponseEntity<?> create(@Valid @RequestBody AccountModel accountModel, BindingResult result) {
-        if (accountModel.getId() != null ) {
+    public ResponseEntity<?> create(@Valid @RequestBody Account account, BindingResult result) {
+        if (account.getId() != null ) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
         if (result.hasErrors()) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(result);
         }
-        Account account = accountUtil.copyAccountModelToAccount(accountModel);
         Account newAccount = accountService.save(account);
-        UriComponents showURI = AccountsItemJsonController.showURI(accountUtil.copyAccountToAccountModel(newAccount));
+        UriComponents showURI = AccountsItemJsonController.showURI(newAccount);
         return ResponseEntity.created(showURI.toUri()).build();
     }
 
 
     @PostMapping(value = "/batch", name = "createBatch")
-    public ResponseEntity<?> createBatch(@Valid @RequestBody Collection<AccountModel> accountModels, BindingResult result) {
+    public ResponseEntity<?> createBatch(@Valid @RequestBody Collection<Account> accounts, BindingResult result) {
         if (result.hasErrors()) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(result);
         }
-        accountService.save(accountUtil.copyAccountModelsToAccounts(new ArrayList<AccountModel>(accountModels)));
+        accountService.save(accounts);
         return ResponseEntity.created(listURI().toUri()).build();
     }
 
 
     @PutMapping(value = "/batch", name = "updateBatch")
-    public ResponseEntity<?> updateBatch(@Valid @RequestBody Collection<AccountModel> accountModels, BindingResult result) {
+    public ResponseEntity<?> updateBatch(@Valid @RequestBody Collection<Account> accounts, BindingResult result) {
         if (result.hasErrors()) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(result);
         }
-        accountService.save(accountUtil.copyAccountModelsToAccounts(new ArrayList<AccountModel>(accountModels)));
+        accountService.save(accounts);
         return ResponseEntity.ok().build();
     }
 

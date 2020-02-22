@@ -15,6 +15,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table(name = "ASSET_DETAIL")
 public class AssetDetail implements Serializable {
@@ -39,9 +42,10 @@ public class AssetDetail implements Serializable {
 	@Column(name = "STATUS")
 	private String status;
 
+	@JsonManagedReference(value="asset")
 	@OneToMany(mappedBy = "asset",
 	        cascade = CascadeType.ALL,
-	        orphanRemoval = true, fetch = FetchType.EAGER)
+	        fetch = FetchType.EAGER)
 	private Set<ManagedAsset> managedAssets = new HashSet<ManagedAsset>();
 
 	public Long getId() {
