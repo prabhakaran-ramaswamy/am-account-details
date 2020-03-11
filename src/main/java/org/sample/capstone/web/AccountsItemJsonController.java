@@ -1,7 +1,7 @@
 package org.sample.capstone.web;
 import javax.validation.Valid;
 
-import org.sample.capstone.entity.Account;
+import org.sample.capstone.entity.AccountView;
 import org.sample.capstone.exception.NotFoundException;
 import org.sample.capstone.service.api.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,8 +32,8 @@ public class AccountsItemJsonController {
 
 
     @ModelAttribute
-    public Account getAccount(@PathVariable("account") Long id) {
-        Account account = accountService.findOne(id);
+    public AccountView getAccount(@PathVariable("account") Long id) {
+        AccountView account = accountService.findOne(id);
         if (account == null) {
             throw new NotFoundException(String.format("Account with identifier '%s' not found", id));
         }
@@ -42,18 +42,18 @@ public class AccountsItemJsonController {
 
 
     @GetMapping(name = "show")
-    public ResponseEntity<?> show(@ModelAttribute Account account) {
+    public ResponseEntity<?> show(@ModelAttribute AccountView account) {
         return ResponseEntity.ok(account);
     }
 
 
-    public static UriComponents showURI(Account account) {
+    public static UriComponents showURI(AccountView account) {
         return MvcUriComponentsBuilder.fromMethodCall(MvcUriComponentsBuilder.on(AccountsItemJsonController.class).show(account)).buildAndExpand(account.getId()).encode();
     }
 
 
     @PutMapping(name = "update")
-    public ResponseEntity<?> update(@ModelAttribute Account storedAccount, @Valid @RequestBody Account account, BindingResult result) {
+    public ResponseEntity<?> update(@ModelAttribute AccountView storedAccount, @Valid @RequestBody AccountView account, BindingResult result) {
         if (result.hasErrors()) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(result);
         }
@@ -63,7 +63,7 @@ public class AccountsItemJsonController {
     }
 
     @DeleteMapping(name = "delete")
-    public ResponseEntity<?> delete(@ModelAttribute Account account) {
+    public ResponseEntity<?> delete(@ModelAttribute AccountView account) {
         accountService.delete(account);
         return ResponseEntity.ok().build();
     }

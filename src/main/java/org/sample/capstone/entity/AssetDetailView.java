@@ -4,45 +4,25 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
-@Entity
-@Table(name = "ASSET_DETAIL")
-public class AssetDetail implements Serializable {
+@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
+public class AssetDetailView implements Serializable {
 
-	private static final long serialVersionUID = 2520883847051820343L;
+	private static final long serialVersionUID = -6266864939189925395L;
 
-	@Id
-	@SequenceGenerator(name = "assetDetailsGen", sequenceName = "ASSET_DETAIL_SEQ")
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "assetDetailsGen")
-	@Column(name = "ASSET_DETAIL_ID")
 	private Long id;
 
-	@Column(name = "DESCRIPTION")
 	private String description;
 
-	@Column(name = "ASSET_NUMBER")
 	private String assetNumber;
 
-	@Column(name = "SERIAL_NUMBER")
 	private String serial;
 
-	@Column(name = "STATUS")
 	private String status;
 
-	@OneToMany(mappedBy = "asset",
-	        cascade = CascadeType.ALL,
-	        fetch = FetchType.EAGER)
-	private Set<ManagedAsset> managedAssets = new HashSet<ManagedAsset>();
+	private Set<ManagedAssetView> managedAssets = new HashSet<ManagedAssetView>();
 
 	public Long getId() {
 		return id;
@@ -84,11 +64,11 @@ public class AssetDetail implements Serializable {
 		this.status = status;
 	}
 
-	public Set<ManagedAsset> getManagedAssets() {
+	public Set<ManagedAssetView> getManagedAssets() {
 		return managedAssets;
 	}
 
-	public void setManagedAssets(Set<ManagedAsset> managedAssets) {
+	public void setManagedAssets(Set<ManagedAssetView> managedAssets) {
 		this.managedAssets = managedAssets;
 	}
 
@@ -108,7 +88,7 @@ public class AssetDetail implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		AssetDetail other = (AssetDetail) obj;
+		AssetDetailView other = (AssetDetailView) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;

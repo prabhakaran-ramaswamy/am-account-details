@@ -1,7 +1,7 @@
 package org.sample.capstone.service.api;
 import java.util.List;
 
-import org.sample.capstone.entity.Account;
+import org.sample.capstone.entity.AccountView;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -9,34 +9,34 @@ import org.springframework.data.domain.Pageable;
 public interface AccountService {
 
 
-    public abstract Account findOne(Long id);
+    public abstract AccountView findOne(Long id);
 
   
-    public abstract void delete(Account account);
+    public abstract void delete(AccountView accountView);
 
 
-    public abstract List<Account> save(Iterable<Account> entities);
+    public abstract List<AccountView> save(Iterable<AccountView> accountViews);
 
 
     public abstract void delete(Iterable<Long> ids);
 
 
-    public abstract Account save(Account entity);
+    public abstract AccountView save(AccountView accountView);
 
 
-    public abstract Account findOneForUpdate(Long id);
+    public abstract AccountView findOneForUpdate(Long id);
 
 
-    public abstract List<Account> findAll(Iterable<Long> ids);
+    public abstract List<AccountView> findAll(Iterable<Long> ids);
 
 
-    public abstract List<Account> findAll();
+    public abstract List<AccountView> findAll();
 
 
     public abstract long count();
 
 
-    public abstract Page<Account> findAll( Pageable pageable);
+    public abstract Page<AccountView> findAll( Pageable pageable);
 
 
 }

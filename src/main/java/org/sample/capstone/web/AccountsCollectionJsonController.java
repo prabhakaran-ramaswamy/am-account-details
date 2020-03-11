@@ -3,7 +3,7 @@ import java.util.Collection;
 
 import javax.validation.Valid;
 
-import org.sample.capstone.entity.Account;
+import org.sample.capstone.entity.AccountView;
 import org.sample.capstone.service.api.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -34,8 +34,8 @@ public class AccountsCollectionJsonController {
 
 
     @GetMapping(name = "list")
-    public ResponseEntity<Page<Account>> list(@PageableDefault Pageable pageable) {
-        Page<Account> accounts = accountService.findAll( pageable);
+    public ResponseEntity<Page<AccountView>> list(@PageableDefault Pageable pageable) {
+        Page<AccountView> accounts = accountService.findAll( pageable);
         return ResponseEntity.ok(accounts);
     }
 
@@ -45,21 +45,21 @@ public class AccountsCollectionJsonController {
     }
 
     @PostMapping(name = "create")
-    public ResponseEntity<?> create(@Valid @RequestBody Account account, BindingResult result) {
+    public ResponseEntity<?> create(@Valid @RequestBody AccountView account, BindingResult result) {
         if (account.getId() != null ) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
         if (result.hasErrors()) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(result);
         }
-        Account newAccount = accountService.save(account);
+        AccountView newAccount = accountService.save(account);
         UriComponents showURI = AccountsItemJsonController.showURI(newAccount);
         return ResponseEntity.created(showURI.toUri()).build();
     }
 
 
     @PostMapping(value = "/batch", name = "createBatch")
-    public ResponseEntity<?> createBatch(@Valid @RequestBody Collection<Account> accounts, BindingResult result) {
+    public ResponseEntity<?> createBatch(@Valid @RequestBody Collection<AccountView> accounts, BindingResult result) {
         if (result.hasErrors()) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(result);
         }
@@ -69,7 +69,7 @@ public class AccountsCollectionJsonController {
 
 
     @PutMapping(value = "/batch", name = "updateBatch")
-    public ResponseEntity<?> updateBatch(@Valid @RequestBody Collection<Account> accounts, BindingResult result) {
+    public ResponseEntity<?> updateBatch(@Valid @RequestBody Collection<AccountView> accounts, BindingResult result) {
         if (result.hasErrors()) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(result);
         }
